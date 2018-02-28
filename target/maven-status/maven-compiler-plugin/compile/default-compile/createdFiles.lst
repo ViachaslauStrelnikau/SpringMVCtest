@@ -1,3 +1,9 @@
+model/Invoice.class
 com/test/FileProcServiceImpl.class
-com/test/FileProcService.class
+dao/InvoiceDAOimpl.class
+dao/GoodsDAOimpl.class
 com/test/HelloController.class
+dao/InvoiceDAO.class
+com/test/FileProcService.class
+dao/GoodsDAO.class
+model/Goods.class

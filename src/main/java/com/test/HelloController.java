@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/*")
 public class HelloController {
 
     @Autowired
@@ -17,15 +16,28 @@ public class HelloController {
     @Autowired
     private FileProcServiceImpl FileService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/*",method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
 
-        model.addAttribute("message", "Spring 3 MVC - Hello World");
+        model.addAttribute("message", "Начало работы");
+        model.addAttribute("message1", FileService.GetFlist());
         return "hello";
 
     }
-    @RequestMapping(method = RequestMethod.POST)
-    public String POSTWelcome(ModelMap model)
+    @RequestMapping(value = "/upload",method = RequestMethod.POST)
+    public String POSTUpload(ModelMap model)
+    {
+        if(FileService.FileUpload(request))
+            model.addAttribute("message", "Файл успешно загружен");
+        else
+            model.addAttribute("message", "Ошибка при загрузки файла");
+
+        model.addAttribute("message1", FileService.GetFlist());
+
+        return "hello";
+    }
+    @RequestMapping(value = "/process",method = RequestMethod.POST)
+    public String POSTProcess(ModelMap model)
     {
         if(FileService.FileUpload(request))
             model.addAttribute("message", "Файл успешно загружен");

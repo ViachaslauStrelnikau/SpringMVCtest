@@ -7,6 +7,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -54,6 +55,31 @@ public class FileProcServiceImpl implements FileProcService {
         }
         return false;
     }
+
+    @Override
+    public boolean FileProcess() {
+
+        ArrayList<String> invArr=new ArrayList<String>();
+        File folder = new File(home_pth+"//"+ sessionId);
+        String Flist[] = folder.list();
+
+        if(Flist==null)
+            return false;
+        for(String s:Flist) {
+            // проверяем действительно ли PDF
+            int ExtIndex = s.indexOf('.');
+            if(s.substring(ExtIndex).toLowerCase().equals(".pdf")) {
+                System.out.println("File to process:" + s);
+                // Обрабатываем файл и получаем номер счета
+                String invStr = ProccessPDFfile(folder.toString() + "//" + s);
+                // запоминаем какие счета мы обработали
+                if(!invStr.equals(""))invArr.add(invStr);
+            }
+        }
+        System.out.println("Processed invoices:"+ String.join(", ", invArr));
+
+        return true;
+    }
     //--------------------------------------------------------------------------------------------------------------
 
     /**
@@ -87,9 +113,13 @@ public class FileProcServiceImpl implements FileProcService {
         }
         return false;
     }
+    //-------------------------------------------------
     public String GetFlist()
     {
         File folder = new File(home_pth+"//"+ sessionId);
-        return Arrays.toString(folder.list());
+        String str=Arrays.toString(folder.list());
+        if(str=="null")return "";
+        else
+        return str;
     }
 }

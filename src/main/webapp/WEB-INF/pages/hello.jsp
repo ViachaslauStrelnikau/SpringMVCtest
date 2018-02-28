@@ -18,7 +18,7 @@
   <input type="file" name="uploadFile" />
   <br/><br/>
   <input type="submit" value="Загрузить" /><br><br>
-<button href="/index.jsp" onclick="window.open('/process');">Обработать</button><br>
+<button href="/hello.jsp" onclick="window.open('/process');">Обработать</button><br>
 
 <div style="text-align: center;">
 
